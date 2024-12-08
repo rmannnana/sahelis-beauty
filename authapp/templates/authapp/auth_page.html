@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if messages %}
+<div class="container mt-3">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-tabs" id="authTab" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login"
+                        type="button" role="tab">
+                        Connexion
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register"
+                        type="button" role="tab">
+                        Inscription
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="login" role="tabpanel">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ login_form.as_p }}
+                        <button type="submit" name="login" class="btn btn-primary w-100">Se Connecter</button>
+                    </form>
+                    <!-- Bouton pour récupérer le mot de passe -->
+                    <div class="text-center mt-3">
+                        <a href="{% url 'authapp:password_reset' %}" class="text-decoration-none">Mot de passe oublié ?</a>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="register" role="tabpanel">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ register_form.as_p }}
+                        <button type="submit" name="register" class="btn btn-success w-100">S'inscrire</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
